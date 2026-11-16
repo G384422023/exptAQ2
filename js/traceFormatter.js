@@ -1,22 +1,15 @@
-const program = `public class exptBQ6{
-   public static void main(String[] args){
-       Node n1 = new Node();
-       Node n2 = new Node();
-       n1.a = 6;
-       n2.a = 2;
-       n2 = n1;
-   }
-}
-
-class Node{
-   int a = 0;
-   Node n = null;
+const program = `public class example {
+  public static void main(String[] args) {
+    int[] as = {1, 2, 3};
+    int x = 3;  //現在の状態
+    as[0] = x;
+} 
 }
 `;
 
 const fs = require("node:fs");
 const path = require("path");
-const trace_data = path.join(__dirname, "../trace_data/exptBQ6.json");
+const trace_data = path.join(__dirname, "../trace_data/example.json");
 
 //整形したトレース
 let formattedTrace = {

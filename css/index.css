@@ -24,6 +24,17 @@
     max-height: 450px;
 }
 
+#justExecuted {
+    background-color: #ddebff;
+    font-size:small;
+    max-width: 145px;
+}
+#nextExecution{
+    background-color: #ffe6e6;
+    font-size:small;
+    max-width: 145px;
+}
+
 #jsav_container .jsavcode .jsavcodeline {
     transition: background-color 0.8s ease;
 }
@@ -178,10 +189,10 @@
 #jsav_data_container .jsavcanvas .jsavlabel,
 #jsav_data_container .jsavcanvas .jsavvalue,
 #jsav_data_container .jsavcanvas .jsavindexlabel {
-    color: #000000;
+    color:#112d4d;
 }
 
 /* JSAVの配列要素の枠線に色を付ける */
 #jsav_data_container .jsavcanvas .jsavarray .jsavindex {
-    border-color: #000000;
+    border-color: #112d4d;
 }

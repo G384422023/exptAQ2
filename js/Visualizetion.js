@@ -1,4 +1,4 @@
-const traceFilePath = "./formatted_trace_data/exptAQ2_formatted.json";
+const traceFilePath = "../formatted_trace_data/exptAQ1_formatted.json";
 
 
 //トレースを返す関数
@@ -12,10 +12,10 @@ async function loadTrace(filePath){
 //プログラムの可視化
 
 //実験モード
-const experimentMode = false;
+const experimentMode = true;
 
 //可視化図の色
-const VISUAL_COLOR =  "#000000";
+const VISUAL_COLOR =  "#112d4d";
 const ANSWER_COLOR = "#ad3131";
 
 class ExecutionVisualizer{
@@ -115,7 +115,7 @@ class ExecutionVisualizer{
     }
 
     //実験用　解答時目画面をPNGで保存
-    async saveAnswerScreenshot(question){
+    async saveAnswerScreenshot(question, PId){
         //撮影対象　画面全体
         const target = document.getElementById("visualizer");
 
@@ -138,7 +138,7 @@ class ExecutionVisualizer{
                 if(blob){
                     resolve(blob);
                 }else{
-                    reject(new Error("PNGデータの作成に失敗しました"));
+                    reject(new Error("PNGデータの作成に失敗しました. もう一度提出を行なってください．"));
                 }
             }, "image/png")
         });
@@ -148,7 +148,7 @@ class ExecutionVisualizer{
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `answer_${questionKey}_${Date.now()}.png`;
+        link.download = `${questionKey}_${PId}.png`;
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -247,8 +247,14 @@ class ExecutionVisualizer{
                 return;
             }
 
-            //提出確認
-            if(!confirm("この解答を提出しますか？\n提出後は修正，再提出ができません．")){
+            //被験者番号の入力と提出確認
+            const input = prompt("被験者番号（3桁の半角数字）を入力してください．\n「OK」を押すと解答を提出します．\n提出後は修正，再提出ができません．");
+            if(input === null){
+                return;
+            }
+            const PId = input.trim();
+            if(!/^[0-9]{3}$/.test(PId)){
+                alert("被験者番号は3桁の半角数字で入力してください．");
                 return;
             }
 
@@ -259,13 +265,12 @@ class ExecutionVisualizer{
 
             try{
                 //現在の解答画面を保存
-                await this.saveAnswerScreenshot(question);
+                await this.saveAnswerScreenshot(question, PId);
 
                 //提出済みとして記録
                 this.submittedQuestionIds.add(questionKey);
 
-                //正誤判定を行わず問題終了
-                this.finishQuestion();
+                alert("解答の保存が完了しました．\n保存されたデータは後ほど使用するため，削除せずに残しておいてください．\nこのページを閉じて，次の手順に進んでください．")
 
             }catch(error){
 
